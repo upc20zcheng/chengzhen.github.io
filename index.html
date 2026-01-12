@@ -3,257 +3,628 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>程振 (Cheng Zhen) | 学术主页</title>
+    <title>学术主页 - 程振博士 | 商学院</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts (Noto Sans SC for professional academic look) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Chosen Palette: Warm Neutrals & Academic Slate -->
+    <!-- Primary: Slate-800, Secondary: Stone-50, Accent: Emerald-600 (Green for Environment), Highlight: Amber-500 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans SC"', 'sans-serif'],
+                    },
+                    colors: {
+                        academic: {
+                            bg: '#fbfaf8', // Warm off-white
+                            surface: '#ffffff',
+                            primary: '#1e293b', // Slate 800
+                            secondary: '#64748b', // Slate 500
+                            accent: '#059669', // Emerald 600 (Environmental focus)
+                            highlight: '#d97706', // Amber 600
+                            light: '#e2e8f0',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        /* 全局设置 */
-        :root {
-            --primary-blue: #003366; /* 沉稳的学术蓝 */
-            --accent-color: #b03535; /* 强调色 */
-            --bg-color: #f9f9f9;
-            --text-main: #333;
-            --text-light: #666;
-            --sidebar-width: 280px;
+        /* Chart Container Styling - Strict adherence to requirements */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px; /* Max width for readability */
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px; /* Base height */
+            max-height: 400px;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0;
-            display: flex;
-            min-height: 100vh;
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
         }
 
-        /* 侧边栏样式 */
-        aside {
-            width: var(--sidebar-width);
-            background: #fff;
-            border-right: 1px solid #e0e0e0;
-            position: fixed;
-            height: 100%;
-            padding: 40px 20px;
-            box-sizing: border-box;
-            text-align: center;
-            overflow-y: auto;
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
         }
 
-        /* 头像占位符 */
-        .avatar {
-            width: 150px;
-            height: 150px;
-            background-color: #eee;
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            background-image: url('photo.jpg'); /* 请替换为您的照片文件名 */
-            background-size: cover;
-            background-position: center;
-            border: 4px solid #fff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #999;
-            font-size: 14px;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-
-        aside h1 {
-            font-size: 1.4em;
-            margin: 10px 0 5px;
-            color: var(--primary-blue);
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
         }
-
-        aside .title {
-            font-size: 0.9em;
-            color: var(--text-light);
-            margin-bottom: 20px;
-        }
-
-        aside .contact-info {
-            font-size: 0.85em;
-            text-align: left;
-            margin-top: 30px;
-            line-height: 1.8;
-        }
-
-        aside .contact-info a {
-            color: var(--primary-blue);
-            text-decoration: none;
-        }
-
-        /* 主内容区域 */
-        main {
-            margin-left: var(--sidebar-width);
-            flex: 1;
-            padding: 60px 80px;
-            max-width: 900px;
-        }
-
-        section {
-            margin-bottom: 50px;
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-        }
-
-        h2 {
-            font-size: 1.5em;
-            color: var(--primary-blue);
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 10px;
-            margin-top: 0;
-        }
-
-        h3 {
-            font-size: 1.1em;
-            margin-bottom: 10px;
-            color: #444;
-        }
-
-        /* 标签样式 */
-        .tag {
-            display: inline-block;
-            background: #eef4fa;
-            color: var(--primary-blue);
-            padding: 4px 10px;
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
             border-radius: 4px;
-            font-size: 0.9em;
-            margin-right: 8px;
-            margin-bottom: 8px;
         }
-
-        /* 列表样式 */
-        ul {
-            padding-left: 20px;
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
         }
         
-        li {
-            margin-bottom: 10px;
+        /* Card Hover Effects */
+        .hover-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-
-        /* 论文列表 */
-        .publication-item {
-            margin-bottom: 15px;
-            text-align: justify;
-        }
-
-        .journal-badge {
-            font-weight: bold;
-            color: var(--accent-color);
-            font-size: 0.9em;
-        }
-
-        /* 移动端适配 */
-        @media (max-width: 768px) {
-            body {
-                flex-direction: column;
-            }
-            aside {
-                position: relative;
-                width: 100%;
-                height: auto;
-                border-right: none;
-                border-bottom: 1px solid #e0e0e0;
-            }
-            main {
-                margin-left: 0;
-                padding: 30px 20px;
-            }
+        .hover-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
     </style>
+    
+    <!-- Application Structure Plan: 
+         1. Hero/Header: Immediate identity, key academic stats, and role.
+         2. Research Dashboard: High-level overview of research interests and metrics using cards.
+         3. Interactive Publications: The core of the academic profile. Filterable list + Visual impact analysis (Chart.js) to show journal quality (IF).
+         4. Project Timeline: Visualizing grant duration and roles (Host vs Participant).
+         5. Teaching & Recruitment: Information for prospective students with an interactive "match" check.
+         6. Footer: Contact info.
+         Rationale: This structure moves from "Who is he?" to "What has he done?" to "How to join him?", facilitating both information consumption and recruitment.
+    -->
+    
+    <!-- Visualization & Content Choices:
+         1. Impact Factor Bar Chart: Goal -> Inform/Impress. Method -> Chart.js Bar. Rationale -> Visually demonstrates the high quality of publications (IF > 10 is significant).
+         2. Publication Filter: Goal -> Organize. Method -> JS Filter Buttons. Rationale -> Users may only be interested in English papers or specific topics.
+         3. Project Cards: Goal -> Inform. Method -> Structured HTML Grid. Rationale -> Clearly separates Host vs Participant roles.
+         4. Recruitment "Checklist": Goal -> Engage. Method -> Interactive JS checkboxes. Rationale -> Gamifies the requirements for potential students.
+         
+         CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
 </head>
-<body>
+<body class="bg-academic-bg text-academic-primary font-sans leading-relaxed selection:bg-academic-accent selection:text-white">
 
-    <aside>
-        <div class="avatar">
-            <span>照片区域<br>(请替换)</span>
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-academic-light shadow-sm">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl">🎓</span>
+                    <span class="font-bold text-xl tracking-tight text-academic-primary">程振 <span class="text-sm font-normal text-academic-secondary">| 博士 · 讲师</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8 text-sm font-medium text-academic-secondary">
+                    <a href="#about" class="hover:text-academic-accent transition-colors">个人简介</a>
+                    <a href="#research" class="hover:text-academic-accent transition-colors">研究方向</a>
+                    <a href="#publications" class="hover:text-academic-accent transition-colors">学术发表</a>
+                    <a href="#projects" class="hover:text-academic-accent transition-colors">科研项目</a>
+                    <a href="#teaching" class="hover:text-academic-accent transition-colors">教学与招生</a>
+                </div>
+                <!-- Mobile Menu Button (simplified functionality for single file) -->
+                <button id="mobile-menu-btn" class="md:hidden text-academic-secondary hover:text-academic-primary">
+                    ☰
+                </button>
+            </div>
         </div>
-        <h1>程振 (Cheng Zhen)</h1>
-        <div class="title">管理学博士 | 讲师 | 硕导</div>
-        
-        <div style="margin-top: 20px;">
-            <strong>阜阳师范大学 商学院</strong>
+        <!-- Mobile Nav Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100">
+            <div class="px-4 pt-2 pb-4 space-y-1">
+                <a href="#about" class="block px-3 py-2 rounded-md hover:bg-gray-50">个人简介</a>
+                <a href="#research" class="block px-3 py-2 rounded-md hover:bg-gray-50">研究方向</a>
+                <a href="#publications" class="block px-3 py-2 rounded-md hover:bg-gray-50">学术发表</a>
+                <a href="#projects" class="block px-3 py-2 rounded-md hover:bg-gray-50">科研项目</a>
+                <a href="#teaching" class="block px-3 py-2 rounded-md hover:bg-gray-50">教学与招生</a>
+            </div>
         </div>
+    </nav>
 
-        <div class="contact-info">
-            <p><strong>Email:</strong><br>
-            <a href="mailto:202406038@fynu.edu.cn">202406038@fynu.edu.cn</a><br>
-            <a href="mailto:13237494718@163.com">13237494718@163.com</a></p>
-            
-            <p><strong>地址:</strong><br>
-            安徽省阜阳市清河东路741号<br>
-            邮编: 236041</p>
-        </div>
-    </aside>
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-16">
 
-    <main>
-        <section id="about">
-            <h2>个人简介</h2>
-            [cite_start]<p>程振，1993年生，安徽利辛人。2024年6月毕业于<strong>中国石油大学（华东）</strong>管理科学与工程专业，获得管理学博士学位 [cite: 1][cite_start]。现任阜阳师范大学商学院讲师、硕士生导师 [cite: 1]。</p>
-            [cite_start]<p>主要从事环境制度与公司财务、数字化治理等领域的教学与研究工作。担任 <em>Environmental Engineering and Management Journal</em>、<em>PLOS ONE</em> 等期刊审稿人 [cite: 1]。</p>
-            
-            <h3>研究方向</h3>
-            <div>
-                <span class="tag">环境制度与公司财务</span>
-                <span class="tag">环境会计与财务管理</span>
-                <span class="tag">数字化治理与企业绿色合规</span>
-                <span class="tag">资源环境治理与政策创新</span>
+        <!-- Hero / About Section -->
+        <section id="about" class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start animate-fade-in-up">
+            <!-- Profile Card -->
+            <div class="md:col-span-4 lg:col-span-3 bg-white rounded-xl shadow-lg border border-academic-light p-6 text-center">
+                <div class="w-32 h-32 bg-academic-light rounded-full mx-auto mb-4 flex items-center justify-center text-4xl shadow-inner">
+                    👨‍🏫
+                </div>
+                <h1 class="text-2xl font-bold text-academic-primary">程振</h1>
+                <p class="text-academic-secondary mb-2">管理学博士 (2024)</p>
+                <p class="text-sm text-academic-secondary mb-4">中国石油大学 (华东)</p>
+                
+                <div class="flex flex-wrap justify-center gap-2 mb-6">
+                    <span class="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-semibold rounded-full">讲师</span>
+                    <span class="px-3 py-1 bg-green-50 text-green-700 text-xs font-semibold rounded-full">硕士生导师</span>
+                </div>
+
+                <div class="space-y-3 text-sm text-left border-t border-gray-100 pt-4">
+                    <div class="flex items-center gap-2">
+                        <span>📍</span>
+                        <span class="text-gray-600">安徽省阜阳市清河东路741号</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span>📧</span>
+                        <a href="mailto:202406038@fynu.edu.cn" class="text-academic-accent hover:underline truncate">202406038@fynu.edu.cn</a>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span>📧</span>
+                        <a href="mailto:13237494718@163.com" class="text-academic-accent hover:underline truncate">13237494718@163.com</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Intro Text & Highlights -->
+            <div class="md:col-span-8 lg:col-span-9 space-y-6">
+                <div class="bg-white rounded-xl shadow-sm border border-academic-light p-6 md:p-8">
+                    <h2 class="text-xl font-bold mb-4 flex items-center gap-2 text-academic-primary">
+                        <span class="w-1 h-6 bg-academic-accent rounded-full"></span>
+                        个人简介
+                    </h2>
+                    <p class="text-gray-600 leading-relaxed mb-4">
+                        程振（1993—），男，汉族，安徽利辛人。2024年6月博士毕业于中国石油大学（华东）管理科学与工程专业并获得管理学博士学位。
+                        现任商学院讲师、硕士生导师。主要致力于探索环境经济与管理的前沿问题，通过定量分析与实证研究，为政策制定与企业绿色发展提供学术支持。
+                    </p>
+                    
+                    <!-- Key Stats Grid -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8">
+                        <div class="bg-academic-bg p-4 rounded-lg text-center hover-card cursor-default">
+                            <div class="text-3xl font-bold text-academic-accent mb-1">8+</div>
+                            <div class="text-xs text-gray-500 uppercase tracking-wide">近五年发表论文</div>
+                        </div>
+                        <div class="bg-academic-bg p-4 rounded-lg text-center hover-card cursor-default">
+                            <div class="text-3xl font-bold text-academic-highlight mb-1">12.3</div>
+                            <div class="text-xs text-gray-500 uppercase tracking-wide">最高影响因子</div>
+                        </div>
+                        <div class="bg-academic-bg p-4 rounded-lg text-center hover-card cursor-default">
+                            <div class="text-3xl font-bold text-blue-600 mb-1">6</div>
+                            <div class="text-xs text-gray-500 uppercase tracking-wide">参与/主持项目</div>
+                        </div>
+                        <div class="bg-academic-bg p-4 rounded-lg text-center hover-card cursor-default">
+                            <div class="text-3xl font-bold text-purple-600 mb-1">2</div>
+                            <div class="text-xs text-gray-500 uppercase tracking-wide">重要奖项</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <section id="publications">
-            <h2>代表性论文 (Selected Publications)</h2>
-            <div class="publication-item">
-                1. <strong>Cheng, Z. (第一作者)</strong>, et al. Energy use rights trading and carbon emissions. [cite_start]<em>Energy</em>, 2025, 315: 134360. <span class="journal-badge">[SCI一区, IF 9.0]</span> [cite: 1, 2]
+        <!-- Research Interests Section -->
+        <section id="research" class="scroll-mt-24">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-academic-primary mb-2">研究方向</h2>
+                <p class="text-academic-secondary">主要聚焦于环境经济与企业治理的交叉领域研究。</p>
             </div>
-            <div class="publication-item">
-                2. <strong>Cheng, Z. (第一作者)</strong>, et al. Can environmental information disclosure promote urban carbon emission reduction? Quasi-experimental evidence from China. [cite_start]<em>Journal of Cleaner Production</em>, 2025, 489: 144698. <span class="journal-badge">[SCI一区, IF 9.8]</span> [cite: 1, 3]
-            </div>
-            <div class="publication-item">
-                3. <strong>程振 (通讯作者兼第二作者)</strong>. 中国环境保护税法对企业劳动雇佣的影响. <em>中国人口·资源与环境</em>, 2023, 33(01): 61-73. [cite_start]<span class="journal-badge">[CSSCI, 国家自科B类]</span> [cite: 1]
-            </div>
-            <div class="publication-item">
-                4. <strong>程振 (通讯作者兼第二作者)</strong>. 国家低碳战略提高了企业全要素生产率吗?——基于低碳城市试点的准自然实验. <em>产业经济研究</em>, 2021, (06): 101-115. [cite_start]<span class="journal-badge">[CSSCI]</span> [cite: 1]
-            </div>
-            <div class="publication-item">
-                5. <strong>程振 (通讯作者兼第三作者)</strong>. 黄河流域数字经济、生态保护与高质量发展时空耦合及其驱动因素. <em>经济问题探索</em>, 2022, (08): 135-148. [cite_start]<span class="journal-badge">[CSSCI]</span> [cite: 1]
-            </div>
-            <div style="margin-top:15px; font-size:0.9em; color:#666;">
-                * [cite_start]近五年在Energy, Journal of Cleaner Production等国内外学术期刊发表论文8余篇 [cite: 1]。
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Research Card 1 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-academic-accent transition-colors group cursor-pointer hover-card">
+                    <div class="text-3xl mb-4 group-hover:scale-110 transition-transform duration-300">🌿</div>
+                    <h3 class="font-bold text-lg mb-2 text-gray-800">环境制度与公司财务</h3>
+                    <p class="text-sm text-gray-500">研究环境规制政策如何影响企业财务绩效与决策行为。</p>
+                </div>
+                <!-- Research Card 2 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-academic-accent transition-colors group cursor-pointer hover-card">
+                    <div class="text-3xl mb-4 group-hover:scale-110 transition-transform duration-300">📊</div>
+                    <h3 class="font-bold text-lg mb-2 text-gray-800">环境会计与财务管理</h3>
+                    <p class="text-sm text-gray-500">探索碳排放核算、环境成本计量及企业绿色投资管理。</p>
+                </div>
+                <!-- Research Card 3 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-academic-accent transition-colors group cursor-pointer hover-card">
+                    <div class="text-3xl mb-4 group-hover:scale-110 transition-transform duration-300">💻</div>
+                    <h3 class="font-bold text-lg mb-2 text-gray-800">数字化治理与绿色合规</h3>
+                    <p class="text-sm text-gray-500">分析企业数字化转型如何赋能绿色发展与合规经营。</p>
+                </div>
+                <!-- Research Card 4 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-academic-accent transition-colors group cursor-pointer hover-card">
+                    <div class="text-3xl mb-4 group-hover:scale-110 transition-transform duration-300">🌍</div>
+                    <h3 class="font-bold text-lg mb-2 text-gray-800">资源环境治理与政策创新</h3>
+                    <p class="text-sm text-gray-500">宏观层面的环境政策设计、评估及其对区域经济的影响。</p>
+                </div>
             </div>
         </section>
 
-        <section id="projects">
-            <h2>科研项目 (Projects)</h2>
-            <ul>
-                [cite_start]<li><strong>主持</strong>：安徽省社科规划青年项目“‘源头—过程—末端’低碳数字技术创新驱动安徽省工业企业绿色转型的机制与政策研究”（AHSKYQ2024D022），2025-2027 [cite: 1]。</li>
-                [cite_start]<li><strong>参与</strong>：国家社科基金青年项目“中国地方债务可持续性的测度、影响因素与实现路径研究” [cite: 1]。</li>
-                [cite_start]<li><strong>参与</strong>：国家社科基金一般项目“黄河流域制造业双重价值链高质量嵌入研究” [cite: 1]。</li>
-            </ul>
-        </section>
+        <!-- Publications Section (Interactive) -->
+        <section id="publications" class="scroll-mt-24">
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+                <div class="p-6 md:p-8 bg-academic-primary text-white">
+                    <h2 class="text-2xl font-bold mb-2">近五年代表性论文</h2>
+                    <p class="text-gray-300 text-sm">发表于 Energy, Journal of Cleaner Production 等国内外权威期刊 (中科院1区 / CSSCI)</p>
+                </div>
 
-        <section id="teaching">
-            <h2>教学与招生 (Teaching & Admissions)</h2>
-            <h3>主讲课程</h3>
-            <ul>
-                [cite_start]<li>本科生：《管理定量分析：方法与技术》 [cite: 1]</li>
-                [cite_start]<li>研究生：《统计分析方法》 [cite: 1]</li>
-            </ul>
-            
-            <div style="background-color: #f0f7ff; padding: 15px; border-left: 4px solid var(--primary-blue); margin-top: 20px;">
-                <h3>研究生招生</h3>
-                [cite_start]<p style="margin: 0;">欢迎具有<strong>管理、经济、计算机、能源环境经济与管理</strong>等专业背景的同学报考硕士研究生。有意向者请将简历发送至电子邮箱 [cite: 1]。</p>
+                <!-- Visualization Panel -->
+                <div class="p-6 md:p-8 border-b border-gray-100 bg-gray-50">
+                    <div class="mb-4">
+                        <h3 class="font-bold text-gray-700 flex items-center gap-2">
+                            <span>📈</span> 学术影响力分析 (期刊影响因子 IF)
+                        </h3>
+                        <p class="text-xs text-gray-500">该图表展示了部分代表作所在期刊的最新影响因子，反映了研究成果的高学术价值。</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="impactFactorChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Interactive List -->
+                <div class="p-6 md:p-8">
+                    <!-- Filters -->
+                    <div class="flex flex-wrap gap-2 mb-6" id="pub-filters">
+                        <button onclick="filterPubs('all')" class="px-4 py-2 rounded-full text-sm font-medium bg-academic-primary text-white shadow-md transition-all active-filter">全部论文</button>
+                        <button onclick="filterPubs('en')" class="px-4 py-2 rounded-full text-sm font-medium bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 hover:border-gray-300 transition-all">英文期刊 (SCI/SSCI)</button>
+                        <button onclick="filterPubs('cn')" class="px-4 py-2 rounded-full text-sm font-medium bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 hover:border-gray-300 transition-all">中文期刊 (CSSCI/核心)</button>
+                    </div>
+
+                    <!-- List Container -->
+                    <div id="publication-list" class="space-y-4">
+                        <!-- Content injected via JS -->
+                    </div>
+                </div>
             </div>
         </section>
-        
-        <section id="awards">
-            <h2>获奖情况 (Honors)</h2>
-            <ul>
-                [cite_start]<li>2023年4月：第七届营销科学与创新国际高峰论坛（MSI 2023）“优秀论文二等奖” [cite: 1]。</li>
-                [cite_start]<li>2022年9月：能源与气候变化国际大赛（CECC）学术赛道优胜奖 (Excellence Award) [cite: 1]。</li>
-            </ul>
+
+        <!-- Projects Section -->
+        <section id="projects" class="scroll-mt-24">
+            <div class="flex flex-col md:flex-row gap-8">
+                <!-- Host Projects -->
+                <div class="flex-1">
+                    <h2 class="text-xl font-bold text-academic-primary mb-4 border-b pb-2 border-academic-highlight">主持项目</h2>
+                    <div class="bg-amber-50 rounded-xl p-6 border border-amber-100 hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="inline-block px-2 py-1 bg-amber-200 text-amber-800 text-xs font-bold rounded">2025-2027</span>
+                            <span class="text-xs text-gray-500">安徽省社科规划青年项目</span>
+                        </div>
+                        <h3 class="font-bold text-gray-800 mb-2">“源头—过程—末端”低碳数字技术创新驱动安徽省工业企业绿色转型的机制与政策研究</h3>
+                        <p class="text-sm text-gray-600">项目编号：AHSKYQ2024D022</p>
+                    </div>
+                </div>
+
+                <!-- Participant Projects -->
+                <div class="flex-1">
+                    <h2 class="text-xl font-bold text-academic-primary mb-4 border-b pb-2 border-blue-500">参与项目 (部分)</h2>
+                    <div class="space-y-4">
+                        <div class="bg-white rounded-xl p-4 border border-gray-100 hover:border-blue-300 transition-colors">
+                            <h4 class="font-semibold text-gray-800 text-sm">国家社科基金青年项目 (2021-2024)</h4>
+                            <p class="text-xs text-gray-500 mt-1">中国地方债务可持续性的测度、影响因素与实现路径研究 (21CJY035)</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-4 border border-gray-100 hover:border-blue-300 transition-colors">
+                            <h4 class="font-semibold text-gray-800 text-sm">国家社科基金一般项目 (2020-2024)</h4>
+                            <p class="text-xs text-gray-500 mt-1">黄河流域制造业双重价值链高质量嵌入研究 (20BJY090)</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-4 border border-gray-100 hover:border-blue-300 transition-colors">
+                            <h4 class="font-semibold text-gray-800 text-sm">横向课题 (2021-2022)</h4>
+                            <p class="text-xs text-gray-500 mt-1">长庆气田侧钻示范区经济性评价 (中国石油天然气股份有限公司)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
+
+        <!-- Teaching & Recruitment -->
+        <section id="teaching" class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8 scroll-mt-24">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Teaching -->
+                <div>
+                    <h2 class="text-2xl font-bold text-academic-primary mb-6">教学与服务</h2>
+                    
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-3 text-gray-700">讲授课程</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                                <span class="text-2xl">📘</span>
+                                <div>
+                                    <div class="font-bold text-gray-800">管理定量分析：方法与技术</div>
+                                    <div class="text-xs text-gray-500">本科生课程</div>
+                                </div>
+                            </li>
+                            <li class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                                <span class="text-2xl">📙</span>
+                                <div>
+                                    <div class="font-bold text-gray-800">统计分析方法</div>
+                                    <div class="text-xs text-gray-500">研究生课程</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold mb-3 text-gray-700">获奖情况</h3>
+                        <div class="space-y-2 text-sm text-gray-600">
+                            <p class="flex gap-2"><span class="text-academic-highlight">🥈</span> MSI 2023 优秀论文二等奖</p>
+                            <p class="flex gap-2"><span class="text-academic-highlight">🏅</span> 金砖国家青年能源峰会学术赛道优胜奖 (2022)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recruitment (Interactive) -->
+                <div class="bg-academic-bg rounded-xl p-6 border border-academic-light">
+                    <h2 class="text-2xl font-bold text-academic-primary mb-2">研究生招生</h2>
+                    <p class="text-sm text-gray-500 mb-6">欢迎报考我的硕士研究生。如果你具备以下背景，我们将非常合拍：</p>
+                    
+                    <div class="space-y-3 mb-6" id="skills-check">
+                        <!-- Interactive Checkboxes -->
+                        <label class="flex items-center gap-3 p-3 bg-white rounded-lg cursor-pointer hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-200">
+                            <input type="checkbox" class="w-5 h-5 text-academic-accent rounded focus:ring-academic-accent" onchange="checkMatch()">
+                            <span class="text-gray-700 text-sm">拥有管理、经济或计算机背景</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-white rounded-lg cursor-pointer hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-200">
+                            <input type="checkbox" class="w-5 h-5 text-academic-accent rounded focus:ring-academic-accent" onchange="checkMatch()">
+                            <span class="text-gray-700 text-sm">对能源环境经济与管理感兴趣</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-white rounded-lg cursor-pointer hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-200">
+                            <input type="checkbox" class="w-5 h-5 text-academic-accent rounded focus:ring-academic-accent" onchange="checkMatch()">
+                            <span class="text-gray-700 text-sm">愿意探索环境政策创新与数据分析</span>
+                        </label>
+                    </div>
+
+                    <div id="match-result" class="hidden p-4 bg-green-100 text-green-800 rounded-lg text-center text-sm font-bold animate-pulse">
+                        我们非常匹配！期待你的邮件。 🚀
+                    </div>
+
+                    <div class="mt-6 pt-6 border-t border-gray-200 text-center">
+                        <a href="mailto:202406038@fynu.edu.cn" class="inline-block px-6 py-3 bg-academic-primary text-white rounded-lg hover:bg-gray-800 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 font-bold text-sm">
+                            发送简历至 202406038@fynu.edu.cn
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
+    <!-- Footer -->
+    <footer class="bg-academic-primary text-gray-300 py-12 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <h3 class="text-white text-lg font-bold mb-4">联系方式</h3>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8 text-sm mb-8">
+                <span class="flex items-center gap-2">📍 安徽省阜阳市清河东路741号 (236041)</span>
+                <span class="flex items-center gap-2">📧 202406038@fynu.edu.cn</span>
+                <span class="flex items-center gap-2">📧 13237494718@163.com</span>
+            </div>
+            <div class="text-xs text-gray-500">
+                &copy; 2025 程振 | 商学院. Generated based on provided CV.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Logic Script -->
+    <script>
+        // Data Store
+        const publications = [
+            { 
+                id: 1, 
+                title: "Energy use rights trading and carbon emissions", 
+                journal: "Energy", 
+                year: 2025, 
+                type: "en", 
+                role: "First Author", 
+                metrics: "中科院 1 区, IF: 9.0",
+                ifValue: 9.0 
+            },
+            { 
+                id: 2, 
+                title: "Can environmental information disclosure promote urban carbon emission reduction? Quasi-experimental evidence from China", 
+                journal: "Journal of Cleaner Production", 
+                year: 2025, 
+                type: "en", 
+                role: "First Author", 
+                metrics: "中科院 1 区, IF: 9.8",
+                ifValue: 9.8 
+            },
+            { 
+                id: 3, 
+                title: "中国环境保护税法对企业劳动雇佣的影响", 
+                journal: "中国人口·资源与环境", 
+                year: 2023, 
+                type: "cn", 
+                role: "通讯作者兼第二作者", 
+                metrics: "CSSCI, FMS T2, IF: 9.53",
+                ifValue: 9.53 
+            },
+            { 
+                id: 4, 
+                title: "国家低碳战略提高了企业全要素生产率吗?——基于低碳城市试点的准自然实验", 
+                journal: "产业经济研究", 
+                year: 2021, 
+                type: "cn", 
+                role: "通讯作者兼第二作者", 
+                metrics: "CSSCI, FMS T2, IF: 12.292",
+                ifValue: 12.292 
+            },
+            { 
+                id: 5, 
+                title: "黄河流域数字经济、生态保护与高质量发展时空耦合及其驱动因素", 
+                journal: "经济问题探索", 
+                year: 2022, 
+                type: "cn", 
+                role: "通讯作者兼第三作者", 
+                metrics: "CSSCI, IF: 8.545",
+                ifValue: 8.545 
+            },
+            { 
+                id: 6, 
+                title: "低碳城市建设能成为企业数字化转型的新动能吗?——来自低碳城市试点的经验证据", 
+                journal: "商业研究", 
+                year: 2024, 
+                type: "cn", 
+                role: "通讯作者兼第二作者", 
+                metrics: "CSSCI, IF: 4.452",
+                ifValue: 4.452 
+            },
+            { 
+                id: 7, 
+                title: "环境规制对我国城市碳排放的影响——门槛特征与空间效应", 
+                journal: "技术经济与管理研究", 
+                year: 2024, 
+                type: "cn", 
+                role: "通讯作者", 
+                metrics: "中文核心, IF: 3.285",
+                ifValue: 3.285 
+            },
+            { 
+                id: 8, 
+                title: "绿色信贷、企业风险承担与企业绿色创新——“波特效应”的中国证据", 
+                journal: "技术经济与管理研究", 
+                year: 2022, 
+                type: "cn", 
+                role: "第一作者", 
+                metrics: "中文核心, IF: 3.285",
+                ifValue: 3.285 
+            }
+        ];
+
+        // Filter Logic
+        function filterPubs(type) {
+            const listContainer = document.getElementById('publication-list');
+            listContainer.innerHTML = '';
+            
+            const filtered = type === 'all' ? publications : publications.filter(p => p.type === type);
+            
+            filtered.forEach(pub => {
+                const el = document.createElement('div');
+                el.className = 'p-4 border-l-4 border-academic-primary bg-gray-50 hover:bg-white hover:shadow-md transition-all rounded-r-lg';
+                el.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-lg mb-1">${pub.title}</h4>
+                            <div class="text-sm text-gray-600 italic mb-2">
+                                ${pub.journal}, ${pub.year}
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded">${pub.role}</span>
+                                <span class="px-2 py-0.5 bg-amber-100 text-amber-800 text-xs rounded">${pub.metrics}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                listContainer.appendChild(el);
+            });
+
+            // Update button styles
+            const buttons = document.querySelectorAll('#pub-filters button');
+            buttons.forEach(btn => {
+                if((type === 'all' && btn.textContent.includes('全部')) || 
+                   (type === 'en' && btn.textContent.includes('英文')) || 
+                   (type === 'cn' && btn.textContent.includes('中文'))) {
+                    btn.classList.remove('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+                    btn.classList.add('bg-academic-primary', 'text-white', 'shadow-md');
+                } else {
+                    btn.classList.add('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+                    btn.classList.remove('bg-academic-primary', 'text-white', 'shadow-md');
+                }
+            });
+        }
+
+        // Initialize List
+        filterPubs('all');
+
+        // Chart Initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('impactFactorChart').getContext('2d');
+            
+            // Sort pubs by IF for better visual
+            const chartData = [...publications].sort((a, b) => b.ifValue - a.ifValue);
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartData.map(p => p.journal.length > 15 ? p.journal.substring(0, 15) + '...' : p.journal),
+                    datasets: [{
+                        label: '期刊影响因子 (Impact Factor)',
+                        data: chartData.map(p => p.ifValue),
+                        backgroundColor: chartData.map(p => p.type === 'en' ? 'rgba(5, 150, 105, 0.7)' : 'rgba(30, 41, 59, 0.7)'), // Green for EN, Slate for CN
+                        borderColor: chartData.map(p => p.type === 'en' ? 'rgb(5, 150, 105)' : 'rgb(30, 41, 59)'),
+                        borderWidth: 1,
+                        borderRadius: 4,
+                        barPercentage: 0.6,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) {
+                                    const index = context[0].dataIndex;
+                                    return chartData[index].journal;
+                                },
+                                label: function(context) {
+                                    return `IF: ${context.raw}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Impact Factor'
+                            },
+                            grid: {
+                                color: '#f3f4f6'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Mobile menu toggle
+            document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+                const menu = document.getElementById('mobile-menu');
+                menu.classList.toggle('hidden');
+            });
+        });
+
+        // Recruitment Match Logic
+        function checkMatch() {
+            const checkboxes = document.querySelectorAll('#skills-check input[type="checkbox"]');
+            const result = document.getElementById('match-result');
+            
+            // If any 2 are checked, show positive result
+            let count = 0;
+            checkboxes.forEach(cb => {
+                if (cb.checked) count++;
+            });
+
+            if (count >= 2) {
+                result.classList.remove('hidden');
+            } else {
+                result.classList.add('hidden');
+            }
+        }
+
+    </script>
 </body>
 </html>
